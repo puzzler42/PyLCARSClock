@@ -30,6 +30,7 @@ root.bind("<Escape>", quit)
 root.bind("x", quit)
 root.after(1000, show_time)
 root.after(1000, upd_cal)
+root.config(cursor="none")
 
 bg = PhotoImage(file = "LCARS_UI.png") 
 lcars_tan = '#F8CC99'
