@@ -19,7 +19,7 @@ def upd_cal():
 	dt_cur = datetime.now()
 	txtC.set(calendar.TextCalendar(firstweekday = 6).formatmonth(dt_cur.year, dt_cur.month).split('\n', 2)[2])
 	txtMY.set(dt_cur.strftime("%B")+" "+dt_cur.strftime("%Y"))
-	txtWD.set('Monday')
+	txtWD.set(dt_cur.strftime("%A"))
 	txtD.set(dt_cur.strftime("%m/%d"))
 
 root = Tk()
