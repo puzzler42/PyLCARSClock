@@ -13,8 +13,7 @@ def show_time():
 	txt2.set(time.strftime("%S"))
 	txt3.set(time.strftime("%I:%M %p")[-2:])
 	root.after(1000, show_time)
-	if (txt == "11:59") and (txt2 == "59") and (txt3 == "PM"):
-		root.after(1000, upd_cal)
+	root.after(1000, upd_cal)
 		
 def upd_cal():
 	dt_cur = datetime.now()
