@@ -71,11 +71,11 @@ lcars_orange = '#FF9A00'
 lcars_blue = '#9C9AFF'
 lcars_pink = "#CE9ACE"
 
-fnt = font.Font(family='LCARS', size=320, weight='normal')
-fnt2 = font.Font(family='LCARS', size=128, weight='normal')
-fnt3 = font.Font(family='LCARS_Mono', size=18, weight='normal')
-fnt4 = font.Font(family='LCARS', size=32, weight='normal')
-fnt5 = font.Font(family='LCARS', size=90, weight='normal')
+fnt = font.Font(family='LCARS', size=int(320*mlt), weight='normal')
+fnt2 = font.Font(family='LCARS', size=int(128*mlt), weight='normal')
+fnt3 = font.Font(family='LCARS_Mono', size=int(18*mlt), weight='normal')
+fnt4 = font.Font(family='LCARS', size=int(32*mlt), weight='normal')
+fnt5 = font.Font(family='LCARS', size=int(90*mlt), weight='normal')
 txt = StringVar()
 txt.set(time.strftime("%I:%M"))
 txt2 = StringVar()
