@@ -4,6 +4,9 @@ from tkinter import font
 import time
 import calendar
 from datetime import datetime
+import os, sys
+#import PIL
+from PIL import Image
 
 def quit(*args):
 	root.destroy()
@@ -22,7 +25,22 @@ def upd_cal():
 	txtWD.set(dt_cur.strftime("%A"))
 	txtD.set(dt_cur.strftime("%m/%d"))
 
+def img_mult(sw, sh):
+    h = sh/1080
+    ofs = 0
+    if sh*16/9 > sw:
+        ofs = sh*16/9-sw
+    r = (h, ofs)
+    return r
+
+    
+
 root = Tk()
+abspath = os.path.abspath(__file__)
+dname = os.path.dirname(abspath)
+os.chdir(dname)
+screen_width = root.winfo_screenwidth()
+screen_height = root.winfo_screenheight()
 root.attributes("-fullscreen", True)
 root.configure(background='black')
 root.bind("<Escape>", quit)
@@ -30,12 +48,29 @@ root.bind("x", quit)
 root.after(1000, show_time)
 root.after(1000, upd_cal)
 root.config(cursor="none")
-
-bg = PhotoImage(file = "LCARS_UI.png") 
+mlt, ofs = img_mult(screen_width, screen_height)
+app_mlt = False
+if mlt == 1 and ofs <= 480:
+    bg = PhotoImage(file = "LCARS_UI.png") 
+else:
+    app_mlt = True
+if ofs > 480:
+    mlt = max(mlt, screen_width/1440)
+    app_mlt = True
+if app_mlt:
+    if os.path.isfile("LCARS_UI-"+str(mlt)[0:16]+".png"):
+        bg = PhotoImage(file = "LCARS_UI-"+str(mlt)[0:16]+".png")
+    else:
+        im = Image.open("LCARS_UI.png")
+        im = im.resize(((1440*mlt), (1080*mlt)), Image.Resampling.LANCZOS)
+        im.save("LCARS_UI-"+str(mlt)[0:16]+".png","PNG")
+        bg = PhotoImage(file = "LCARS_UI-"+str(mlt)[0:16]+".png")
+    
 lcars_tan = '#F8CC99'
 lcars_orange = '#FF9A00'
 lcars_blue = '#9C9AFF'
 lcars_pink = "#CE9ACE"
+
 fnt = font.Font(family='LCARS', size=320, weight='normal')
 fnt2 = font.Font(family='LCARS', size=128, weight='normal')
 fnt3 = font.Font(family='LCARS_Mono', size=18, weight='normal')
@@ -53,7 +88,7 @@ txtWD = StringVar()
 txtD = StringVar()
 upd_cal()
 
-ui_lbl = ttk.Label(root, image=bg)
+ui_lbl = ttk.Label(root, image=bg, background="black")
 ui_lbl.place(relx=0.5, rely=0.5, anchor=CENTER)
 lbl = ttk.Label(root, textvariable=txt, font=fnt, foreground=lcars_tan, background="black")
 lbl.place(relx=0.41, rely=0.55, anchor=CENTER)
@@ -69,5 +104,6 @@ wd_lbl = ttk.Label(root, textvariable=txtWD, font=fnt5, foreground=lcars_orange,
 wd_lbl.place(relx=0.6, rely=0.055, anchor=E)
 d_lbl = ttk.Label(root, textvariable=txtD, font=fnt5, foreground=lcars_tan, background="black")
 d_lbl.place(relx=0.6, rely=0.18, anchor=E)
+
 
 root.mainloop()
